@@ -9,6 +9,7 @@ import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
+import { KitchenCanvas } from "@/components/KitchenCanvas";
 
 // Configuración optimizada para evitar cuelgues
 const queryClient = new QueryClient({
@@ -42,6 +43,14 @@ const App = () => (
                 element={
                   <ProtectedRoute>
                     <Index />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/kitchen" 
+                element={
+                  <ProtectedRoute>
+                    <KitchenCanvas />
                   </ProtectedRoute>
                 } 
               />

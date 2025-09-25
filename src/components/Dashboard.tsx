@@ -527,7 +527,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
       'Dirección': order.address || '',
       'Sede': order.sede || '',
       'Estado': getDisplayStatus(order.estado || '', order.type_order),
-      'Total': order.total ? `$${order.total.toLocaleString()}` : '$0',
+      'Total': order.total ? `$${(order.total ?? 0).toLocaleString()}` : '$0',
       'Tipo Pago': order.pago_tipo || '',
       'Estado Pago': order.pago_estado || '',
       'Fecha Creación': order.creado_fecha || '',
@@ -911,7 +911,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
         setNewOrder(prev => ({ ...prev, deliveryCost: lastPrice }));
         toast({
           title: "Precio encontrado",
-          description: `Se estableció $${lastPrice.toLocaleString()} basado en entregas anteriores`,
+          description: `Se estableció $${(lastPrice ?? 0).toLocaleString()} basado en entregas anteriores`,
         });
       } else {
         toast({
@@ -1951,7 +1951,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                             <span className="text-sm">{realOrder.repartidor}</span>
                           </div>
                         </td>
-                        <td className="p-2 font-medium">${realOrder.total.toLocaleString()}</td>
+                        <td className="p-2 font-medium">${(realOrder.total ?? 0).toLocaleString()}</td>
                         <td className="p-2">
                           <div className="text-sm">
                             {realOrder.entrega_hora}
@@ -2259,14 +2259,14 @@ export const Dashboard: React.FC<DashboardProps> = ({
                   <div className="space-y-2">
                     <Label className="text-sm font-medium text-gray-900">Fecha de Cancelación:</Label>
                     <p className="text-sm text-gray-600">
-                      {new Date(viewCancelData.canceledAt).toLocaleString('es-CO', {
+                      {viewCancelData.canceledAt ? new Date(viewCancelData.canceledAt).toLocaleString('es-CO', {
                         year: 'numeric',
                         month: '2-digit',
                         day: '2-digit',
                         hour: '2-digit',
                         minute: '2-digit',
                         hour12: false
-                      })}
+                      }) : ''}
                     </p>
                   </div>
                 )}
@@ -2636,7 +2636,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                       <div key={`plato-${item.id}`} className="flex items-center justify-between p-2 border rounded bg-green-50">
                         <div>
                           <p className="font-medium">{item.name}</p>
-                          <p className="text-sm text-gray-600">${item.pricing.toLocaleString()}</p>
+                          <p className="text-sm text-gray-600">${(item.pricing ?? 0).toLocaleString()}</p>
                           <span className="text-xs bg-green-100 text-green-800 px-1 rounded">Disponible</span>
                         </div>
                         <Button
@@ -2652,7 +2652,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                       <div key={`bebida-${item.id}`} className="flex items-center justify-between p-2 border rounded bg-blue-50">
                         <div>
                           <p className="font-medium">{item.name}</p>
-                          <p className="text-sm text-gray-600">${item.pricing.toLocaleString()}</p>
+                          <p className="text-sm text-gray-600">${(item.pricing ?? 0).toLocaleString()}</p>
                           <span className="text-xs bg-blue-100 text-blue-800 px-1 rounded">Disponible</span>
                         </div>
                         <Button
@@ -2693,7 +2693,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                       <div key={`topping-${item.id}`} className="flex items-center justify-between p-2 border rounded bg-orange-50">
                         <div>
                           <p className="font-medium text-orange-800">{item.name}</p>
-                          <p className="text-sm text-orange-600">${item.pricing.toLocaleString()}</p>
+                          <p className="text-sm text-orange-600">${(item.pricing ?? 0).toLocaleString()}</p>
                           <span className="text-xs bg-orange-100 text-orange-800 px-1 rounded">Disponible</span>
                         </div>
                         <Button
@@ -2740,7 +2740,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                             )}
                           </p>
                           <p className={`text-sm ${itemTextColor}`}>
-                            Cantidad: {item.quantity} × ${product?.pricing.toLocaleString()}
+                            Cantidad: {item.quantity} × ${(product?.pricing ?? 0).toLocaleString()}
                           </p>
                         </div>
                         <Button
@@ -2756,12 +2756,12 @@ export const Dashboard: React.FC<DashboardProps> = ({
                   <div className="border-t pt-2">
                     {newOrder.deliveryType === 'delivery' && newOrder.deliveryCost > 0 && (
                       <div className="text-sm text-gray-600 mb-1">
-                        Subtotal productos: ${(calculateTotal() - newOrder.deliveryCost).toLocaleString()}
+                        Subtotal productos: ${((calculateTotal() || 0) - (newOrder.deliveryCost || 0)).toLocaleString()}
                         <br />
-                        Domicilio: ${newOrder.deliveryCost.toLocaleString()}
+                        Domicilio: ${(newOrder.deliveryCost || 0).toLocaleString()}
                       </div>
                     )}
-                    <p className="font-bold text-lg">Total: ${calculateTotal().toLocaleString()}</p>
+                    <p className="font-bold text-lg">Total: ${(calculateTotal() || 0).toLocaleString()}</p>
                   </div>
                 </div>
               </div>
